@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+const base = process.env.APP_URL || 'http://127.0.0.1:3000';
+const response=await fetch(base);assert.equal(response.status,200);assert.match(await response.text(),/What happened before/);
+const health=await (await fetch(`${base}/health`)).json();assert.equal(health.ok,true);
+const exact=await (await fetch(`${base}/api/frequency?runs=70&wickets=2&balls=60&innings=1&competition=WBBL`)).json();assert.equal(exact.n,7);assert.equal(exact.successes,5);
+const pooled=await (await fetch(`${base}/api/frequency?runs=70&wickets=2&balls=60&innings=1&competition=WBBL&poolWickets=true`)).json();assert.equal(pooled.n,15);assert.equal(pooled.successes,12);
+for(const url of ['/.env','/data/history.json','/src/provider.mjs','/../.env'])assert.equal((await fetch(`${base}${url}`)).status,404);
+assert.equal((await fetch(`${base}/api/frequency?runs=-1&wickets=2&balls=60`)).status,400);
+const unsupported=await(await fetch(`${base}/api/frequency?runs=70&wickets=2&balls=60&competition=GT20`)).json();assert.equal(unsupported.available,false);
+const stream=await fetch(`${base}/api/events`,{signal:AbortSignal.timeout(5000)});assert.match(stream.headers.get('content-type'),/text\/event-stream/);const reader=stream.body.getReader();const first=await reader.read();assert.match(new TextDecoder().decode(first.value),/^data: /);await reader.cancel();
+console.log('Server smoke checks passed: page, exact/pooled frequencies, unsupported competition, event stream and private-file protection.');

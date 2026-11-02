@@ -1,0 +1,13 @@
+{
+  "name": "wbbl-edge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A learning project for live cricket tracking and transparent WBBL historical frequencies.",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "test": "node --test --experimental-test-isolation=none test/*.test.mjs",
+    "data:import": "node scripts/import-history.mjs"
+  }
+}

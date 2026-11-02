@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A learning project for automatic cricket score tracking and transparent WBBL historical analysis.">
+  <title>WBBL Edge · Match intelligence</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <a class="logo" href="/" aria-label="WBBL Edge home"><span class="mark">W.</span> WBBL <b>EDGE</b></a>
+      <p class="eyebrow sidebar-label">YOUR CRICKET WORKSPACE</p>
+      <nav aria-label="Main navigation">
+        <button class="nav active" data-page="tracker" aria-current="page"><span>◉</span> Match centre</button>
+        <button class="nav" data-page="research"><span>▥</span> Research notes</button>
+        <button class="nav" data-page="learn"><span>↗</span> Build & learn</button>
+      </nav>
+      <div class="sidebar-bottom"><span class="small-dot"></span> LOCAL DEVELOPMENT<br><small>Your project. Your progress.</small></div>
+    </aside>
+    <main>
+      <header><div><p class="eyebrow">THE WOMEN’S GAME, IN CONTEXT</p><h1>Match centre<span class="period">.</span></h1></div><span class="connection" id="connection" role="status">Connecting…</span></header>
+
+      <section id="tracker" class="page">
+        <div class="mode-banner"><span id="mode-label">CONNECTING TO LOCAL SERVER</span><span id="mode-description">Waiting for the first update.</span></div>
+        <p id="problem" class="problem" role="status" hidden></p>
+        <div class="dashboard">
+          <div class="match-column">
+            <article class="scorecard">
+              <div class="scorecard-top"><span class="eyebrow">MATCH TRACKER</span><span id="score-status" class="pill">WAITING</span></div>
+              <h2 id="match-name">Waiting for match data</h2><p id="venue">—</p>
+              <div class="score-line"><strong id="score">—/—</strong><span><b id="overs">—</b><br>OVERS</span></div>
+              <p id="match-status">No score received.</p>
+              <div class="score-stats"><div><span>CURRENT RATE</span><b id="run-rate">—</b></div><div><span>BALLS REMAINING</span><b id="remaining">—</b></div><div><span>PACE PROJECTION</span><b id="projection">—</b></div></div>
+              <p id="chase-detail" class="score-note" hidden></p>
+              <div class="ground-art" aria-hidden="true"><svg viewBox="0 0 240 160"><ellipse cx="120" cy="80" rx="105" ry="66"/><ellipse cx="120" cy="80" rx="72" ry="47"/><rect x="112" y="55" width="16" height="50"/><path d="M108 62h24M108 98h24"/></svg></div>
+            </article>
+            <article class="panel deliveries"><div class="panel-heading"><h2>Recent activity</h2><span class="eyebrow" id="activity-type">DEMO DELIVERIES</span></div><div class="balls" id="events"><p class="muted">Waiting for a delivery.</p></div><div class="controls" id="demo-controls"><button id="toggle" class="button primary">Pause demo</button><button id="next" class="button">Next ball</button><button id="reset" class="button quiet">Reset</button></div><p class="muted" id="received">No update received.</p><p class="muted" id="source-delay">Provider event time is not available.</p></article>
+            <article class="panel method"><span class="eyebrow">WHAT THE NUMBERS MEAN</span><h2>Scoring pace ≠ a forecast.</h2><p>The pace projection assumes the current scoring rate continues. The historical panel checks how often previous WBBL teams reached that total from the same score and ball count.</p><p>Player strength, weather and bowling resources are not yet modelled. No betting signals are enabled.</p></article>
+          </div>
+
+          <div class="analysis-column">
+            <article class="panel analysis"><div class="panel-heading"><div><p class="eyebrow">EXACT-SCORE EXPLORER</p><h2>What happened before?</h2></div><span class="outline-pill">WBBL ONLY</span></div>
+              <label class="check"><input type="checkbox" id="follow" checked> Follow the tracker score</label>
+              <form id="scenario">
+                <div class="input-grid"><label>Runs<input id="runs" type="number" min="0" max="500" step="1" value="70" required></label><label>Wickets<input id="wickets" type="number" min="0" max="10" step="1" value="2" required></label><label>Overs<input id="scenario-overs" type="text" inputmode="decimal" pattern="[0-9]+(\.[0-5])?" value="10.0" required aria-describedby="overs-help"></label></div>
+                <p class="muted" id="overs-help">Cricket notation: 15.3 means 15 overs and 3 balls.</p>
+                <label class="target-label">Final total to reach <span class="muted">optional</span><input id="target" type="number" min="1" max="500" step="1" placeholder="Use current-pace total"></label>
+                <label class="check"><input id="pool-wickets" type="checkbox"> Pool all wicket counts to show the broader sample</label>
+                <button class="button primary wide" type="submit">Explore historical outcomes <span>↗</span></button>
+              </form>
+              <div class="frequency-box" aria-live="polite"><p class="eyebrow" id="frequency-title">HISTORICAL FREQUENCY</p><div class="frequency-number" id="frequency">—</div><p id="frequency-count">Looking for comparable records…</p><progress id="frequency-bar" value="0" max="100" aria-label="Observed historical frequency"></progress><p id="interval" class="muted"></p></div>
+              <div class="sample-warning" id="sample-warning" role="status">Historical frequencies are not guaranteed match outcomes.</div>
+              <div class="details"><p id="matching">Exact runs, legal balls and wickets.</p><p id="recent"></p><p id="scenario-state"></p></div>
+            </article>
+            <article class="panel source-panel"><span class="eyebrow">RESEARCH FOUNDATION</span><div class="source-metrics"><div><strong id="history-count">—</strong><span>eligible first innings</span></div><div><strong>2015–25</strong><span>archive coverage</span></div></div><p>Historical data: <a href="https://cricsheet.org/" target="_blank" rel="noreferrer">Cricsheet ↗</a>, adapted into exact-score observations.</p><p class="muted">Licensed under <a href="https://opendatacommons.org/licenses/by/1.0/" target="_blank" rel="noreferrer">ODC Attribution v1.0</a>. No affiliation with WBBL or Cricket Australia.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="research" class="page" hidden><article class="panel reading"><p class="eyebrow">TRANSPARENT BY DESIGN</p><h2>A frequency you can inspect.</h2><p>Each result matches the exact team runs and legal balls elapsed. By default, it also matches the exact wicket count. The optional broader sample pools wicket counts explicitly; it never silently widens the score range.</p><h3>Example</h3><p>70 at 10 overs projects to 140. Across all wicket counts, 12 of 15 historical innings finished on 140 or more. Restricting to 70/2 gives 5 of 7. These small, different samples do not justify treating either percentage as a precise live probability.</p><h3>What is included?</h3><p>Completed, standard WBBL first innings from the downloaded 519-match Cricsheet archive. 463 innings meet the eligibility rules. Shortened, adjusted and incomplete innings, plus exceptional scoring/availability cases, are excluded.</p><h3>What is still missing?</h3><p>Player, venue, weather and opponent adjustments; target-aware chase modelling; prospective evaluation; verified individual live deliveries; market-price comparison. The score provider adapter is for snapshots and must be tested against actual provider responses before being relied on.</p><h3>No certainty from a perfect sample</h3><p>Four successes in four innings is an observed 100%, not a promise. Sample size and the displayed approximate 95% interval help reveal uncertainty. They do not correct for changes in teams, conditions or eras.</p></article></section>
+
+      <section id="learn" class="page" hidden><article class="panel reading"><p class="eyebrow">BUILD IT. UNDERSTAND IT.</p><h2>Your first real app.</h2><ol class="lessons"><li><b>The page</b><p>Open public/index.html. Find the heading “What happened before?” and change it. Save, then refresh your browser.</p></li><li><b>The design</b><p>Open public/styles.css. The variables at the top control colours. Change --accent to try another highlight.</p></li><li><b>The calculations</b><p>Open src/cricket.mjs. oversToBalls converts 15.3 into 93 balls. paceProjection calculates the equivalent 20-over total.</p></li><li><b>The automatic updates</b><p>server.mjs sends updates to public/app.js. One server connection feeds every visitor; each visitor does not spend a separate provider request.</p></li><li><b>The live source</b><p>Copy .env.example to .env. Configure a provider key and match ID on your computer, then restart the server. Never put secrets into GitHub or the page.</p></li><li><b>Your GitHub history</b><p>Save each small working change as a commit. The README explains how to create and connect a private GitHub repository.</p></li></ol></article></section>
+      <footer>WBBL EDGE <span>·</span> A work in progress, with the evidence in view. <span class="version">v0.1</span></footer>
+    </main>
+  </div>
+</body>
+</html>
